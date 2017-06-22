@@ -16,7 +16,7 @@
         app:srcCompat="@drawable/lock"/>
 
     <EditText
-        android:id="@+id/editText3"
+        android:id="@+id/et_Username_ca"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -29,7 +29,7 @@
         android:inputType="textPersonName"/>
 
     <EditText
-        android:id="@+id/editText4"
+        android:id="@+id/et_Password_ca"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -42,7 +42,7 @@
         android:inputType="textPassword"/>
 
     <EditText
-        android:id="@+id/editText5"
+        android:id="@+id/et_RetypePassword_ca"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -55,7 +55,7 @@
         android:inputType="textPassword"/>
 
     <EditText
-        android:id="@+id/editText6"
+        android:id="@+id/et_Email_ca"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -68,7 +68,7 @@
         android:inputType="textPersonName"/>
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/btn_createAccount_ca"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
