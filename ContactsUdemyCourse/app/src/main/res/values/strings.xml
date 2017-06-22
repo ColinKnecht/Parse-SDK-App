@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">ContactsUdemyCourse</string>
+    <string name="hint_username">please enter username</string>
+    <string name="hint_password">please enter password</string>
+    <string name="button_login">Login</string>
+    <string name="button_create_account">Create Account</string>
+    <string name="button_reset_password">Reset Password</string>
+    <string name="hint_un_one">enter username</string>
+
+</resources>
