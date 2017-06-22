@@ -6,5 +6,7 @@
     <string name="button_create_account">Create Account</string>
     <string name="button_reset_password">Reset Password</string>
     <string name="hint_un_one">enter username</string>
+    <string name="hint_retype_password">please retype password</string>
+    <string name="hint_email">enter email</string>
 
 </resources>
