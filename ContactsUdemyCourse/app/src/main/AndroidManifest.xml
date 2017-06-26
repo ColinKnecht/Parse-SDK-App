@@ -22,6 +22,8 @@
         </activity>
         <activity android:name=".CreateAccount">
         </activity>
+        <activity android:name=".ContactList">
+        </activity>
     </application>
 
 </manifest>
