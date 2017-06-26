@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,6 +19,7 @@ public class Login extends AppCompatActivity {
     EditText etUsername;
     EditText etPassword;
     Button btnLogin, btnCreateAccount, btnResetPassword;
+    private static final String TAG = "Login";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,9 +61,31 @@ public class Login extends AppCompatActivity {
                     ParseUser.logInInBackground(etUsername.getText().toString(), etPassword.getText().toString(), new LogInCallback() {
                         @Override
                         public void done(ParseUser user, ParseException e) {
-                            
+                            if (user != null) {//user has logged in successfully
+                                boolean verified = user.getBoolean("emailVerified");//grabs the boolean from the parse.com website database
+                                Log.d(TAG, "logInInBackground done: Boolean verified =" + verified);
+
+                                if (!verified) { //if users not verified
+                                    Toast.makeText(Login.this, "Please verify email before logging in", Toast.LENGTH_SHORT).show();
+                                    progressDialog.dismiss();
+                                    ParseUser.logOut();
+                                }
+                                else { // user has been verified
+                                    Toast.makeText(Login.this, "Logged In Successfully", Toast.LENGTH_SHORT).show();
+
+                                    Intent intent = new Intent(Login.this, ContactList.class);
+                                    startActivity(intent);
+                                    progressDialog.dismiss();
+                                    Login.this.finish();//finish login activity
+                                }
+                            }
+                            else { //there may be an exception
+                                Toast.makeText(Login.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                Log.e(TAG, "logInInBackground done: " + e.getMessage() );
+                                progressDialog.dismiss();
+                            }
                         }
-                    })
+                    });
                 }
 
             }
