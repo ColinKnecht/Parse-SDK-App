@@ -9,5 +9,7 @@
     <string name="hint_retype_password">please retype password</string>
     <string name="hint_email">enter email</string>
     <string name="hint_password_reset">enter your email address</string>
+    <string name="add_new_contact">Add New Contact</string>
+    <string name="logout">Logout</string>
 
 </resources>
