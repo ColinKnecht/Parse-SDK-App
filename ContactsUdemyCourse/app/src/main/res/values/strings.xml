@@ -8,5 +8,6 @@
     <string name="hint_un_one">enter username</string>
     <string name="hint_retype_password">please retype password</string>
     <string name="hint_email">enter email</string>
+    <string name="hint_password_reset">enter your email address</string>
 
 </resources>

@@ -1,11 +1,14 @@
 package com.colinknecht.contactsudemycourse;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,6 +17,7 @@ import android.widget.Toast;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
+import com.parse.RequestPasswordResetCallback;
 
 public class Login extends AppCompatActivity {
     EditText etUsername;
@@ -102,6 +106,46 @@ public class Login extends AppCompatActivity {
         btnResetPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                LayoutInflater pwInflater = getLayoutInflater();
+                final View passwordResetLayout = pwInflater.inflate(R.layout.reset_password_popup,null);//connects reset button to forgotPassword xml file
+                final EditText etMail = (EditText) passwordResetLayout.findViewById(R.id.et_hint_password_reset);//etMail grabs the EditText from forgotPassword xml file
+
+                AlertDialog.Builder dlgReset = new AlertDialog.Builder(Login.this);//shows popup message over LoginActivity
+                dlgReset.setView(passwordResetLayout);//set View to Layout defined on line 108 and 109
+                dlgReset.setTitle("Reset Password");
+
+                dlgReset.setPositiveButton("RESET", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        final ProgressDialog pdia = new ProgressDialog(Login.this);//shows progressDialog over Login Activity
+                        pdia.setMessage("Sending message to your email for password reset");
+                        pdia.show();//shows progress dialog
+
+                        ParseUser.requestPasswordResetInBackground(etMail.getText().toString(),
+                                new RequestPasswordResetCallback() { //calls ParseUser class to reset password
+                            @Override
+                            public void done(ParseException e) {
+                                if (e == null) {//if there was NO error... i.e. ParseException
+                                    Toast.makeText(Login.this, "Reset Instructions Sent To Your Email", Toast.LENGTH_SHORT).show();
+                                    pdia.dismiss();
+                                }
+                                else {//if theres an error
+                                    Toast.makeText(Login.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    pdia.dismiss();//dismisses Progress Dialog
+                                }
+                            }
+                        });
+                    }
+                });
+
+                dlgReset.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+
+                dlgReset.show();//shows popup window
 
             }
         });//resetPassword onClick
