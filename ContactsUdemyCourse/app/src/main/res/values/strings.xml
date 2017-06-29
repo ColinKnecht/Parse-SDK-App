@@ -11,5 +11,9 @@
     <string name="hint_password_reset">enter your email address</string>
     <string name="add_new_contact">Add New Contact</string>
     <string name="logout">Logout</string>
+    <string name="hint_first_name">First Name</string>
+    <string name="hint_last_name">Last Name</string>
+    <string name="hint_phone_number">Phone Number</string>
+    <string name="btn_add_contact">Add New Contact</string>
 
 </resources>
