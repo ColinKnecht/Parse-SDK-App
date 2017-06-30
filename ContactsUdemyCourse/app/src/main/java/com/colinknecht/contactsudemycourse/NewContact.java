@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 public class NewContact extends AppCompatActivity {
@@ -49,6 +50,7 @@ public class NewContact extends AppCompatActivity {
                     newUser.put("firstName", etFirstName.getText().toString());//put the etFirstname into the firstname field in Parse
                     newUser.put("lastName", etLastName.getText().toString());
                     newUser.put("phoneNumber", etPhoneNumber.getText().toString());
+                    newUser.put("userName", ParseUser.getCurrentUser().getUsername());//this line tracks who posted the contact
                     newUser.saveInBackground(new SaveCallback() {//this saves the records to the database
                         @Override
                         public void done(ParseException e) {//when done saving; it will go to this method
