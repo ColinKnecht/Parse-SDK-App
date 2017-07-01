@@ -9,6 +9,8 @@ import android.support.v7.widget.MenuItemHoverListener;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -33,10 +35,32 @@ public class ContactList extends AppCompatActivity {
         setContentView(R.layout.activity_contact_list);
 
         lvContacts = (ListView) findViewById(R.id.lv_contacts);//connects java listview object to activity_contact_list.xml listview
+
+        lvContacts.setOnItemClickListener(new AdapterView.OnItemClickListener() {//what happens when you click on one of the contacts in the listview
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {//if someone clicks on one of the items in the list
+
+                String phoneNumber = contacts.get(position).getString("phoneNumber");//".get(position)grabs the ParseObject at a place in the list
+                //.getString("phoneNumber") grabs the phone number value from the database
+                String firstName = contacts.get(position).getString("firstName");
+                String lastName = contacts.get(position).getString("lastName");
+                String objectId = contacts.get(position).getObjectId();//grabs objectId from database
+                //then send these values to next activity...which will be EditContact
+                Intent intent = new Intent(ContactList.this, EditContacts.class);
+                intent.putExtra("phoneNumber",phoneNumber);//passing data to the EditContact intent using key/value pairs
+                intent.putExtra("firstName", firstName);
+                intent.putExtra("lastName", lastName);
+                intent.putExtra("id",objectId);
+                startActivity(intent);
+
+            }
+        });
+
         contacts = new ArrayList<ParseObject>();//initialize ArrayAdapter
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Contacts");
+        populateArrayList();
     }
 
     private void populateArrayList() { //places values from database as parseobjects inside of contacts arraylist
