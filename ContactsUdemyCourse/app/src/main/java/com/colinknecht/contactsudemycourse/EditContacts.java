@@ -1,10 +1,12 @@
 package com.colinknecht.contactsudemycourse;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,6 +14,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.SaveCallback;
 
 public class EditContacts extends AppCompatActivity {
     private static final String TAG = "EditContacts";
@@ -50,7 +59,55 @@ public class EditContacts extends AppCompatActivity {
         btnEditContact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (etFirstName.getText().toString() == null || etFirstName.getText().toString().equals("")
+                        || etLastName.getText().toString() == null || etLastName.getText().toString().equals("") ||
+                        etPhoneNumber.getText().toString() == null || etPhoneNumber.getText().toString().equals("")) {
+                    Toast.makeText(EditContacts.this, "Please Enter All Fields", Toast.LENGTH_SHORT).show();
+                }
+                else { //update contact
+                    final ProgressDialog progressDialog = new ProgressDialog(EditContacts.this);
+                    progressDialog.setMessage("Busy Updating Contact... Please Wait");
+                    progressDialog.show();
 
+                    ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Contacts");//run a query on the table contacts
+                    //got the objectId from the ContactList Intent
+                    query.getInBackground(getIntent().getStringExtra("id"), new GetCallback<ParseObject>() {
+                        @Override
+                        public void done(ParseObject object, ParseException e) {
+                            if (e == null){//no errors
+                                object.put("firstName", etFirstName.getText().toString());//"firstName" updates the table value on the Parse db
+                                object.put("lastName", etLastName.getText().toString());
+                                object.put("phoneNumber", etPhoneNumber.getText().toString());
+                                object.saveInBackground(new SaveCallback() {//saves the object in Parse
+                                    @Override
+                                    public void done(ParseException e) {
+                                        if (e == null) {//no errors
+                                            Toast.makeText(EditContacts.this, "Contact Saved Successfully!", Toast.LENGTH_SHORT).show();
+                                            progressDialog.dismiss();
+                                            EditContacts.this.finish();
+                                            Intent intent = new Intent(EditContacts.this, ContactList.class);
+                                            startActivity(intent);
+                                        }
+                                        else { //errors
+                                            Toast.makeText(EditContacts.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                            Log.e(TAG, "btnEditConact--parseQuery--saveInBackground--done: "+ e.getMessage() );
+                                            progressDialog.dismiss();
+                                            EditContacts.this.finish();
+                                            Intent intent = new Intent(EditContacts.this, ContactList.class);
+                                            startActivity(intent);
+                                        }
+
+                                    }
+                                });
+                            }
+                            else {//errors
+                                Toast.makeText(EditContacts.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                Log.e(TAG, "btnEditConact--parseQuery--done: "+ e.getMessage() );
+                                progressDialog.dismiss();
+                            }
+                        }
+                    });
+                }
             }
         });
 
