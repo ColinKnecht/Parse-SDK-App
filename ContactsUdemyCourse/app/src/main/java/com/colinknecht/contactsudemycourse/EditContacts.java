@@ -1,5 +1,7 @@
 package com.colinknecht.contactsudemycourse;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -55,7 +57,9 @@ public class EditContacts extends AppCompatActivity {
         ivCall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                //what happens when u want to call the person
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + getIntent().getStringExtra("phoneNumber") ));//intent is from ContactList
+                startActivity(intent);
             }
         });
     }
