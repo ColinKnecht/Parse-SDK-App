@@ -36,6 +36,15 @@ public class EditContacts extends AppCompatActivity {
         etPhoneNumber = (EditText) findViewById(R.id.et_phone_edit_contact);
         ivCall = (ImageView) findViewById(R.id.iv_call);
 
+        etFirstName.setVisibility(View.GONE);///hides a field..when the activity start u will not see these items
+        etLastName.setVisibility(View.GONE);
+        etPhoneNumber.setVisibility(View.GONE);
+        btnEditContact.setVisibility(View.GONE);
+
+        //remember you passed values from the ContactList Intent... below we grab these values
+        tvName.setText(getIntent().getStringExtra("firstName") + " " + getIntent().getStringExtra("lastName"));
+        tvPhone.setText(getIntent().getStringExtra("phoneNumber"));
+
         btnEditContact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,6 +75,18 @@ public class EditContacts extends AppCompatActivity {
 
         switch (id){
             case R.id.action_edit: {
+                //when user clicks on edit....show the button and edit texts
+                etFirstName.setVisibility(View.VISIBLE);
+                etLastName.setVisibility(View.VISIBLE);
+                etPhoneNumber.setVisibility(View.VISIBLE);
+                btnEditContact.setVisibility(View.VISIBLE);
+
+
+                //now populate the edittexts with Contact's info so we can change information
+                //remember Intent was passed from contact list
+                etFirstName.setText(getIntent().getStringExtra("firstName"));
+                etLastName.setText(getIntent().getStringExtra("lastName"));
+                etPhoneNumber.setText(getIntent().getStringExtra("phoneNumber"));
                 return true;
             }
             case R.id.action_delete: {
@@ -75,6 +96,6 @@ public class EditContacts extends AppCompatActivity {
                 return onOptionsItemSelected(item);
             }
         }//switch
-        
+
     }
 }//end class
