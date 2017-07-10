@@ -3,6 +3,7 @@ package com.colinknecht.contactsudemycourse;
 import android.app.Application;
 
 import com.parse.Parse;
+import com.parse.ParseInstallation;
 
 /**
  * Created by colinknecht on 6/22/17.
@@ -18,5 +19,6 @@ public class ContactsApplicationClass extends Application {
                 .clientKey("2VC0jyhnC4Wh7CewNF8dJtCEOPFBMdqPdjNdlnfT")
                 .server("https://parseapi.back4app.com/").build()
         );
+        ParseInstallation.getCurrentInstallation().saveInBackground();
     }
 }

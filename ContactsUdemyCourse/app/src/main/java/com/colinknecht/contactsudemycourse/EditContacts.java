@@ -211,7 +211,7 @@ public class EditContacts extends AppCompatActivity {
                 dlgDelete.setNegativeButton("NO", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        
+
                     }
                 });
 
